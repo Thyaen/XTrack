@@ -1,0 +1,37 @@
+# Use the official ROS2 desktop image as the base (e.g., humble)
+FROM ros:humble-ros-base
+
+#RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros2-latest-archive-keyring.gpg
+
+# Install additional dependencies (if needed)
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-pyqt5 \
+    ros-humble-rclpy \
+    ros-humble-tf-transformations \
+    nano \
+    byobu \
+    iputils-ping \
+    ros-humble-sophus \
+    espeak \
+    libespeak1 \
+    alsa-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up the environment for ROS2
+ENV ROS_DISTRO=humble
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+
+# Create a workspace directory (optional, for custom packages)
+WORKDIR /ros2_ws
+RUN mkdir -p /ros2_ws/src
+
+# Copy any custom ROS2 packages (if you have them)
+COPY ./ros2_ws/src /ros2_ws/src
+
+# Build the workspace (if you have custom packages)
+RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && colcon build"
+
+# Set the entrypoint to source ROS2 setup
+ENTRYPOINT ["/bin/bash", "-c", "source /opt/ros/humble/setup.bash && exec \"$@\"", "--"]
+CMD ["/bin/bash"]

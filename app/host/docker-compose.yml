@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  ros2_humble:
+    build:
+      context: .
+      dockerfile: Dockerfile_ROS
+    image: ros2_humble_base
+    container_name: ros2_humble_pcps_host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_DOMAIN_ID=2
+    volumes:
+      - ./ros2_ws:/ros2_ws
+      - /run/user/1000/pulse:/run/user/1000/pulse
+    tty: true
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/snd:/dev/snd
+    network_mode: "host"
+    stdin_open: true
+    command: /bin/bash -i  # Explicitly use interactive bash
+

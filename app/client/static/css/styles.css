@@ -1,0 +1,45 @@
+/* styles.css - Tailwind Input + Custom Styles */
+
+/* Import Tailwind’s base, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Custom Styles --- */
+
+/* Container wrapper */
+.container {
+  @apply mx-auto p-4;
+}
+
+/* Heading */
+h1 {
+  @apply text-2xl font-bold mb-4;
+}
+
+/* SLAM Map Canvas */
+#mapCanvas {
+  @apply w-full h-64 bg-gray-200 rounded shadow;
+}
+
+/* Camera Feed */
+#camFeed {
+  @apply w-full h-64 object-contain bg-black rounded shadow;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Control Buttons */
+.btn-action {
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded;
+}
+
+.btn-action-red {
+  @apply bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded;
+}
+
+/* Debug: Uncomment to see image container */
+/*
+#camFeed {
+  border: 2px solid red !important;
+}
+*/

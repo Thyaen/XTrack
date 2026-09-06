@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autonomous Vehicle Control</title>
+  <link href="/static/css/styles.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white h-screen overflow-hidden">
+
+  <div class="mx-auto w-full max-w-[640px] flex h-full">
+
+    <!-- Linke Spalte -->
+    <div class="w-full flex flex-col justify-start p-4 overflow-hidden">
+
+
+      <!-- Steuerung oben -->
+      <div class="bg-gray-800 p-4 rounded-lg shadow-lg w-full flex-grow overflow-auto">
+        <div class="p-4">
+          <!-- Tabs -->
+          <div class="flex justify-center space-x-4 border-b border-gray-300 mb-4">
+            <button class="tab-button font-semibold px-4 py-2 border-b-2 border-transparent hover:border-blue-500 focus:outline-none" data-tab="motor">Motor Control</button>
+            <button class="tab-button font-semibold px-4 py-2 border-b-2 border-transparent hover:border-blue-500 focus:outline-none" data-tab="zustand">Log</button>
+            <button class="tab-button font-semibold px-4 py-2 border-b-2 border-transparent hover:border-blue-500 focus:outline-none" data-tab="sensor">IMU Plot</button>
+          </div>
+
+          <!-- Inhalte -->
+          
+          <div id="motor" class="tab-content hidden">
+            <h2 class="text-xl font-semibold text-white mb-4 text-center">Motor Control</h2>
+
+            <div class="grid grid-cols-3 gap-2">
+              <div></div>
+              <button onclick="sendMotor(0.3, 0.3)" 
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full">
+                Forward
+              </button>
+              <div></div>
+
+              <button onclick="sendMotor(-0.4, 0.4)" 
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full">
+                Left
+              </button>
+              <button onclick="sendMotor(0.0, 0.0)" 
+                      class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded w-full">
+                Stop
+              </button>
+              <button onclick="sendMotor(0.4, -0.4)" 
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full">
+                Right
+              </button>
+
+              <div></div>
+              <button onclick="sendMotor(-0.3, -0.3)" 
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded w-full">
+                Back
+              </button>
+              <div></div>
+            </div>
+            </div>
+          <div id="zustand" class="tab-content hidden">
+            <p>System status...</p>
+          </div>
+          <div id="sensor" class="tab-content hidden">
+            <p>IMU data...</p>
+          </div>
+        </div>
+        <script>
+          const tabButtons = document.querySelectorAll('.tab-button');
+          const tabContents = document.querySelectorAll('.tab-content');
+
+          tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+              const target = button.getAttribute('data-tab');
+
+              // Alle Inhalte verstecken
+              tabContents.forEach(content => {
+                content.classList.add('hidden');
+              });
+
+              // Gewählten Inhalt anzeigen
+              document.getElementById(target).classList.remove('hidden');
+
+              // Tab-Stil aktualisieren
+              tabButtons.forEach(btn => {
+                btn.classList.remove('border-blue-500', 'text-blue-500');
+              });
+              button.classList.add('border-blue-500', 'text-blue-500');
+            });
+          });
+        </script>
+      </div>
+
+
+      <!-- Kamera unten -->
+      <div class="flex-none">
+        <div id="camera-stream" class="mt-auto w-full bg-white rounded shadow p-2">
+          <h2 class="font-semibold mb-2">Camera</h2>
+          <!-- Wichtig: die ID muss mit der in app.js übereinstimmen -->
+           <canvas id="camCanvas" width="640" height="480" class="w-full max-w-[640px] max-h-[480px] h-auto rounded bg-gray-200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rechte Spalte -->
+    <!--<div class="w-3/5 p-4">
+      <h2 class="text-xl font-semibold mb-4">SLAM Karte</h2>
+      <canvas id="slam-map" class="w-full h-full border border-gray-700 rounded bg-black"></canvas>
+    </div>-->
+  </div>
+
+  <script>
+    function sendMotor(m1, m2) {
+      fetch('/motor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `motor1=${m1}&motor2=${m2}`
+      });
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</body>
+</html>

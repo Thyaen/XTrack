@@ -1,0 +1,16 @@
+# Ignoriere ROS 2 Build-Zwischenergebnisse
+ros2_ws/build
+ros2_ws/install
+ros2_ws/log
+
+# Python Bytecode
+__pycache__/
+*.pyc
+
+# Editor-Dateien
+*.swp
+*.bak
+
+# Systemdateien
+.DS_Store
+Thumbs.db

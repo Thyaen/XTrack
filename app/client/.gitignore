@@ -1,0 +1,27 @@
+# ROS 2 colcon build artifacts
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor-/IDE-spezifisch
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+
+# Docker build cache (optional)
+*.tar
+*.bak
+*.tmp
+
+# Optional: Ignoriere Dateien mit geheimen Infos
+.env

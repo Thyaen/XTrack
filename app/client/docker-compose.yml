@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  flask-app:
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    network_mode: "host"
+    environment:
+      - ROS_DOMAIN_ID=0      # Ensure ROS2 topics sind im Default-Domain
+  ros2_humble:
+    build:
+      context: .
+      dockerfile: rosDockerfile
+    image: ros2_humble_desktop
+    container_name: ros2_humble_pcps
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_DOMAIN_ID=0
+    volumes:
+      - ./ros2_ws:/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    network_mode: "host"
+    tty: true
+    stdin_open: true
+    command: /bin/bash -i  # Explicitly use interactive bash

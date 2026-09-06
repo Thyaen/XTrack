@@ -1,0 +1,11 @@
+flask
+flask-socketio
+ultralytics
+torch
+torchvision
+eventlet
+numpy
+opencv-python
+opencv-contrib-python
+kiss-icp  # placeholder für SLAM-Integration
+pygame
